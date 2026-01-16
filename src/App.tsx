@@ -1,4 +1,4 @@
-import { QueryPage } from "./components/page/QueryPage";
+import { QueryPage } from "./components/page/query/QueryPage";
 
 export function App() {
   return <QueryPage />;
