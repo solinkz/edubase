@@ -1,7 +1,7 @@
-import { ComponentExample } from "@/components/component-example";
+import { QueryPage } from "./components/page/QueryPage";
 
 export function App() {
-return <ComponentExample />;
+  return <QueryPage />;
 }
 
 export default App;
