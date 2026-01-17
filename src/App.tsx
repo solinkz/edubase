@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryPage } from "./components/page/query/QueryPage";
-import { ResultsPage } from "./components/page/query/ResultsPage";
+import { ResultsPage } from "./components/page/result/ResultsPage";
 
 export function App() {
   return (

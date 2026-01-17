@@ -51,6 +51,7 @@ export function QueryInput({
           size="icon"
           variant="secondary"
           className="rounded-full p-3 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-gray-100 dark:bg-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+    
         >
           <SendHorizonal size={20} className="" />
         </Button>
