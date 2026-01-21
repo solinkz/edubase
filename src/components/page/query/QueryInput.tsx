@@ -10,7 +10,7 @@ export function QueryInput({
 }: {
   showSuggestion: boolean;
   setShowSuggestion: (value: boolean) => void;
-  }) {
+}) {
   const [inputValue, setInputValue] = useState("");
 
   const handleFocus = () => {
@@ -39,7 +39,7 @@ export function QueryInput({
       <div className="flex items-center flex-1 px-1 py-2">
         <Input
           placeholder="Ask anything..."
-          className="text-lg placeholder:text-gray-400 focus-visible:ring-0 shadow-none border-0"
+          className="text-lg bg-transparent dark:bg-transparent placeholder:text-gray-400 focus-visible:ring-0 shadow-none border-0"
           value={inputValue}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -51,7 +51,6 @@ export function QueryInput({
           size="icon"
           variant="secondary"
           className="rounded-full p-3 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-gray-100 dark:bg-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-    
         >
           <SendHorizonal size={20} className="" />
         </Button>
