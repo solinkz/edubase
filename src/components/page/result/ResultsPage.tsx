@@ -27,7 +27,11 @@ export function ResultsPage() {
           <ResultSection />
         </div>
       </div>
-      <EmptyState />
+
+      {/* Hide this when results are shown  */}
+      <div className="hidden">
+        <EmptyState />
+      </div>
     </div>
   );
 }

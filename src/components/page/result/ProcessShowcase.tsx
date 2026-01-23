@@ -15,7 +15,7 @@ export function ProcessShowcase() {
           </Button>
           <span className="text-sm">Identifying data needed...</span>
         </div>
-        <Button
+        {/* <Button
           variant="ghost"
           size="xs"
           className="cursor-pointer"
@@ -31,7 +31,7 @@ export function ProcessShowcase() {
           >
             <ChevronDown />
           </motion.div>
-        </Button>
+        </Button> */}
       </div>
       <AnimatePresence>
         {showProcess && (
