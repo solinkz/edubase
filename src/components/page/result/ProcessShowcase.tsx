@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Square } from "lucide-react";
+import { Square } from "lucide-react";
 
 export function ProcessShowcase() {
-  const [showProcess, setShowProcess] = useState(false);
+  const [showProcess] = useState(false);
 
   return (
     <div className="flex flex-col p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg">
