@@ -15,7 +15,6 @@ export function QueryInput({
   NLInput: string;
   setNLInput: (value: string) => void;
 }) {
-  
   const navigate = useNavigate();
   const handleFocus = () => {
     if (NLInput === "") {
@@ -40,7 +39,8 @@ export function QueryInput({
 
   const handleSend = () => {
     if (NLInput === "") return;
-    navigate("/results");
+    // Persist query in URL search parameter so it survives page refresh
+    navigate(`/results?q=${encodeURIComponent(NLInput)}`);
   };
 
   return (
@@ -67,7 +67,10 @@ export function QueryInput({
       </div>
 
       {/* Suggestions on click */}
-      <QuerySuggestion showSuggestion={showSuggestion} setNLInput={setNLInput}/>
+      <QuerySuggestion
+        showSuggestion={showSuggestion}
+        setNLInput={setNLInput}
+      />
     </div>
   );
 }

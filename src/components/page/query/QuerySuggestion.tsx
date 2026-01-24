@@ -18,7 +18,8 @@ export function QuerySuggestion({
   const navigate = useNavigate();
   const handleSuggestionClick = (suggestion: string) => {
     setNLInput(suggestion);
-    navigate("/results");
+    // Persist suggestion in URL search parameter for refresh survival
+    navigate(`/results?q=${encodeURIComponent(suggestion)}`);
   };
   return (
     <ul className={showSuggestion ? "pb-1" : "hidden"}>

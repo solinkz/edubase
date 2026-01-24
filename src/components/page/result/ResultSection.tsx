@@ -37,45 +37,55 @@ const DEFAULT_DATA = [
 
 export function ResultSection() {
   return (
-    <div className="flex flex-col">
-      {/* Tabs */}
-      <Tabs defaultValue="table" className="w-full">
-        <div className="flex justify-between">
-          <TabsList className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-            <TabsTrigger value="table" className="rounded-lg cursor-pointer">
-              <Grid3X3 />
-              Table
-            </TabsTrigger>
-            <TabsTrigger value="summary" className="rounded-lg cursor-pointer">
-              <Text />
-              Summary
-            </TabsTrigger>
-          </TabsList>
+    <div
+      className={`w-full max-w-3xl pt-8 flex border-t border-gray-200 dark:border-gray-700 flex-col gap-2 mt-8`}
+    >
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+        Showing {42} students admission from KK22 in the last 24 hours
+      </p>
+      <div className="flex flex-col">
+        {/* Tabs */}
+        <Tabs defaultValue="table" className="w-full">
+          <div className="flex justify-between">
+            <TabsList className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+              <TabsTrigger value="table" className="rounded-lg cursor-pointer">
+                <Grid3X3 />
+                Table
+              </TabsTrigger>
+              <TabsTrigger
+                value="summary"
+                className="rounded-lg cursor-pointer"
+              >
+                <Text />
+                Summary
+              </TabsTrigger>
+            </TabsList>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-gray-100 dark:bg-gray-800 cursor-pointer shadow-none"
-          >
-            Export CSV
-            <CloudDownload />
-          </Button>
-        </div>
-        {/* Table */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-gray-100 dark:bg-gray-800 cursor-pointer shadow-none"
+            >
+              Export CSV
+              <CloudDownload />
+            </Button>
+          </div>
+          {/* Table */}
 
-        <TabsContent value="table">
-          <div className="mt-2 p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[200px]">
-            <DataTable headers={DEFAULT_HEADERS} data={DEFAULT_DATA} />
-          </div>
-        </TabsContent>
-        <TabsContent value="summary">
-          <div className="mt-2 p-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[200px] flex items-center justify-center border-dashed">
-            <span className="text-sm text-gray-400 dark:text-gray-500">
-              Summary Results will appear here...
-            </span>
-          </div>
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="table">
+            <div className="mt-2 p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[200px]">
+              <DataTable headers={DEFAULT_HEADERS} data={DEFAULT_DATA} />
+            </div>
+          </TabsContent>
+          <TabsContent value="summary">
+            <div className="mt-2 p-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[200px] flex items-center justify-center border-dashed">
+              <span className="text-sm text-gray-400 dark:text-gray-500">
+                Summary Results will appear here...
+              </span>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
