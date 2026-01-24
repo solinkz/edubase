@@ -3,7 +3,7 @@ import { QueryInput } from "./QueryInput";
 import { BookMarked } from "lucide-react";
 import { useState } from "react";
 
-export function QueryPage() {
+export function QueryPage({ NLInput, setNLInput }: { NLInput: string; setNLInput: (value: string) => void }) {
   const [showSuggestion, setShowSuggestion] = useState(false);
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
@@ -16,7 +16,7 @@ export function QueryPage() {
           </h1>
 
           <div className="flex flex-col gap-6">
-            <QueryInput showSuggestion={showSuggestion} setShowSuggestion={setShowSuggestion}/>
+            <QueryInput showSuggestion={showSuggestion} setShowSuggestion={setShowSuggestion} NLInput={NLInput} setNLInput={setNLInput}/>
             <div className="flex justify-center items-center gap-2 text-gray-400 dark:text-gray-500">
               <BookMarked size={16} strokeWidth={2.5} />
               <p className="text-sm font-medium">

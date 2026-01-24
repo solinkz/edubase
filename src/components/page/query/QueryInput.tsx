@@ -2,19 +2,23 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizonal } from "lucide-react";
 import { QuerySuggestion } from "./QuerySuggestion";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function QueryInput({
   showSuggestion,
   setShowSuggestion,
+  NLInput,
+  setNLInput,
 }: {
   showSuggestion: boolean;
   setShowSuggestion: (value: boolean) => void;
+  NLInput: string;
+  setNLInput: (value: string) => void;
 }) {
-  const [inputValue, setInputValue] = useState("");
-
+  
+  const navigate = useNavigate();
   const handleFocus = () => {
-    if (inputValue === "") {
+    if (NLInput === "") {
       setShowSuggestion(true);
     }
   };
@@ -26,12 +30,17 @@ export function QueryInput({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setInputValue(value);
+    setNLInput(value);
     if (value !== "") {
       setShowSuggestion(false);
     } else {
       setShowSuggestion(true);
     }
+  };
+
+  const handleSend = () => {
+    if (NLInput === "") return;
+    navigate("/results");
   };
 
   return (
@@ -40,7 +49,7 @@ export function QueryInput({
         <Input
           placeholder="Ask anything..."
           className="text-lg bg-transparent dark:bg-transparent placeholder:text-gray-400 focus-visible:ring-0 shadow-none border-0"
-          value={inputValue}
+          value={NLInput}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleChange}
@@ -51,13 +60,14 @@ export function QueryInput({
           size="icon"
           variant="secondary"
           className="rounded-full p-3 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-gray-100 dark:bg-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          onClick={handleSend}
         >
           <SendHorizonal size={20} className="" />
         </Button>
       </div>
 
       {/* Suggestions on click */}
-      <QuerySuggestion showSuggestion={showSuggestion} />
+      <QuerySuggestion showSuggestion={showSuggestion} setNLInput={setNLInput}/>
     </div>
   );
 }

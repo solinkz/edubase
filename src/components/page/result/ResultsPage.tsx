@@ -4,7 +4,7 @@ import { QuerySection } from "./QuerySection";
 import { ProcessShowcase } from "./ProcessShowcase";
 import { ResultSection } from "./ResultSection";
 
-export function ResultsPage() {
+export function ResultsPage({ NLInput }: { NLInput: string }) {
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 relative">
       <NavBar />
@@ -12,7 +12,7 @@ export function ResultsPage() {
         <div
           className={`w-full max-w-3xl p-1 pt-2 flex flex-col gap-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mt-20 rounded-xl`}
         >
-          <QuerySection query="I would like to find out how many students from KK22 have been admitted in the last 24 hours?" />
+          <QuerySection query={NLInput} />
 
           {/* Process showcase */}
           <ProcessShowcase />
