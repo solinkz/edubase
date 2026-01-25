@@ -1,101 +1,72 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { Square } from "lucide-react";
+import { Square, CheckCircle2, Loader2, Sparkles, Clock } from "lucide-react";
 
-export function ProcessShowcase() {
-  const [showProcess] = useState(false);
+interface ProcessShowcaseProps {
+  isProcessing: boolean;
+  currentStep: string;
+  timeTaken: number | null;
+  onStop: () => void;
+}
 
+export function ProcessShowcase({
+  isProcessing,
+  currentStep,
+  timeTaken,
+  onStop,
+}: ProcessShowcaseProps) {
   return (
-    <div className="flex flex-col p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg">
-      <div className="flex items-center">
-        <div className="flex-1 flex items-center gap-2">
-          <Button variant="default" size="icon-xs" className="rounded-full">
-            <Square />
-          </Button>
-          <span className="text-sm">Identifying data needed...</span>
-        </div>
-        {/* <Button
-          variant="ghost"
-          size="xs"
-          className="cursor-pointer"
-          onClick={() => {
-            setShowProcess(!showProcess);
-          }}
-        >
-          {showProcess ? "Collapse" : "Expand"}{" "}
-          <motion.div
-            animate={{ rotate: showProcess ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center justify-center"
-          >
-            <ChevronDown />
-          </motion.div>
-        </Button> */}
-      </div>
-      <AnimatePresence>
-        {showProcess && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="border-t dark:border-gray-600 flex flex-col pt-4 px-4 pb-4 gap-4 mt-2">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                What I need to do:
-              </h3>
-
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-start gap-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      1.
-                    </span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Identify the data needed
-                    </span>
-                  </div>
-                  <ul className="pl-6 flex flex-col gap-1">
-                    <li className="text-sm text-gray-500 dark:text-gray-400 list-disc">
-                      Member list for company KK22
-                    </li>
-                    <li className="text-sm text-gray-500 dark:text-gray-400 list-disc">
-                      Recent admissions within the last 24 hours
-                    </li>
-                    <li className="text-sm text-gray-500 dark:text-gray-400 list-disc">
-                      Admission details (reason, facility, status, cost)
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-start gap-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      2.
-                    </span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Filter and retrieve relevant records:
-                    </span>
-                  </div>
-                  <ul className="pl-6 flex flex-col gap-1">
-                    <li className="text-sm text-gray-500 dark:text-gray-400 list-disc">
-                      Match company = 'KK22'
-                    </li>
-                    <li className="text-sm text-gray-400 dark:text-gray-500 list-disc">
-                      Filter by admission_timestamp in the last 24 hours
-                    </li>
-                    <li className="text-sm text-gray-400 dark:text-gray-500 list-disc">
-                      Sort newest first
-                    </li>
-                  </ul>
-                </div>
-              </div>
+    <div className="flex flex-col p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg transition-all duration-300">
+      <div className="flex items-center min-h-8">
+        <div className="flex-1 flex items-center gap-3">
+          {isProcessing ? (
+            <Button
+              variant="default"
+              size="icon-xs"
+              className="rounded-full bg-gray-900 dark:bg-gray-100 hover:bg-red-500 dark:hover:bg-red-500 transition-colors group cursor-pointer"
+              onClick={onStop}
+              title="Stop processing"
+            >
+              <Square
+                size={12}
+                className="fill-white dark:fill-black group-hover:fill-white"
+              />
+            </Button>
+          ) : timeTaken ? (
+            <div className="flex items-center justify-center h-6 w-6 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+              <CheckCircle2 size={16} />
             </div>
+          ) : (
+            <div className="flex items-center justify-center h-6 w-6 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+              <Sparkles size={16} />
+            </div>
+          )}
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                {currentStep || "Ready to analyze"}
+              </span>
+              {isProcessing && (
+                <Loader2 size={14} className="animate-spin text-gray-400" />
+              )}
+            </div>
+          </div>
+        </div>
+
+        {timeTaken && (
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-600"
+          >
+            <Clock size={12} className="text-gray-400" />
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400 tabular-nums">
+              {timeTaken}ms
+            </span>
           </motion.div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 }

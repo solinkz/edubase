@@ -9,10 +9,10 @@ export function QuerySuggestion({
   setNLInput: (value: string) => void;
 }) {
   const inputSuggestions = [
-    "Show the most frequently registered course in Kigali this quarter.",
-    "Which students are at risk of failing in Mathematics?",
-    "Compare the average grades between Class A and Class B.",
-    "What is the trend of student attendance over the last month?",
+    "Show me all female students from Canada.",
+    "What is the average QPA of students from Brazil?",
+    "How many students are there from each country?",
+    "Who are the top 5 students with the highest QPA?",
   ];
 
   const navigate = useNavigate();
