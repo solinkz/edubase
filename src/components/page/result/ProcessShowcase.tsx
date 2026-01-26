@@ -1,12 +1,22 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { Square, CheckCircle2, Loader2, Sparkles, Clock } from "lucide-react";
+import {
+  Square,
+  CheckCircle2,
+  Loader2,
+  Sparkles,
+  Clock,
+  ChevronDown,
+  Database,
+} from "lucide-react";
+import { useState } from "react";
 
 interface ProcessShowcaseProps {
   isProcessing: boolean;
   currentStep: string;
   timeTaken: number | null;
   onStop: () => void;
+  generatedSql: string | null;
 }
 
 export function ProcessShowcase({
@@ -14,7 +24,10 @@ export function ProcessShowcase({
   currentStep,
   timeTaken,
   onStop,
+  generatedSql,
 }: ProcessShowcaseProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <div className="flex flex-col p-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg transition-all duration-300">
       <div className="flex items-center min-h-8">
@@ -54,19 +67,60 @@ export function ProcessShowcase({
           </div>
         </div>
 
-        {timeTaken && (
+        <div className="flex items-center gap-2">
+          {timeTaken && (
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-600"
+            >
+              <Clock size={12} className="text-gray-400" />
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 tabular-nums">
+                {timeTaken}ms
+              </span>
+            </motion.div>
+          )}
+
+          {generatedSql && (
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
+            >
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDown size={16} className="text-gray-500" />
+              </motion.div>
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isExpanded && generatedSql && (
           <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-600"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
           >
-            <Clock size={12} className="text-gray-400" />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400 tabular-nums">
-              {timeTaken}ms
-            </span>
+            <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-600">
+              <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                <Database size={12} />
+                Generated SQL Query
+              </div>
+              <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-100 dark:border-gray-600 overflow-x-auto">
+                <code className="text-xs text-blue-600 dark:text-blue-400 font-mono whitespace-pre -mt-3 capitalize">
+                  {generatedSql}
+                </code>
+              </div>
+            </div>
           </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 }

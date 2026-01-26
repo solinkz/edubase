@@ -12,6 +12,7 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
   const [analysisResult, setAnalysisResult] = useState<{
     intent: Record<string, unknown>;
     data: Record<string, unknown>[];
+    sql: string;
     metadata: { rowCount: number };
   } | null>(null);
 
@@ -102,6 +103,7 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
           currentStep={currentStep}
           timeTaken={timeTaken}
           onStop={handleStop}
+          generatedSql={analysisResult?.sql || null}
         />
 
         {loading ? (

@@ -6,6 +6,7 @@ interface QuerySectionProps {
   currentStep: string;
   timeTaken: number | null;
   onStop: () => void;
+  generatedSql: string | null;
 }
 
 export function QuerySection({
@@ -14,6 +15,7 @@ export function QuerySection({
   currentStep,
   timeTaken,
   onStop,
+  generatedSql,
 }: QuerySectionProps) {
   return (
     <div
@@ -29,6 +31,7 @@ export function QuerySection({
         currentStep={currentStep}
         timeTaken={timeTaken}
         onStop={onStop}
+        generatedSql={generatedSql}
       />
     </div>
   );
