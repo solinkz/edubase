@@ -7,14 +7,30 @@
  * NO AI DECISION-MAKING - All rules are explicit and deterministic.
  */
 
+interface Filter {
+  column: string;
+  operator: string;
+  value: string | number | boolean | (string | number)[] | null;
+  logicalOperator?: "AND" | "OR";
+}
+
+interface Intent {
+  table: string;
+  fields?: { column: string; alias?: string }[];
+  filters?: Filter[];
+  aggregations?: { function: string; column: string; alias?: string }[];
+  groupBy?: string[];
+  distinct?: boolean;
+}
+
 /**
  * Determines the appropriate view type based on query intent and result data.
  * 
- * @param {Object} intent - The query intent object
- * @param {Array} data - The result data array
- * @returns {"table" | "summary"} - The recommended view type
+ * @param intent - The query intent object
+ * @param data - The result data array
+ * @returns - The recommended view type
  */
-export function determineViewType(intent, data) {
+export function determineViewType(intent: Intent, data: Record<string, unknown>[]): "table" | "summary" {
   // RULE 1: If query has aggregations → Summary view
   // Rationale: Aggregated data (COUNT, AVG, SUM, etc.) is better presented
   // as summary statistics rather than raw table rows
@@ -39,7 +55,7 @@ export function determineViewType(intent, data) {
 
   // RULE 4: If result has computed/aliased columns → Summary view
   // Rationale: Aliases like "avg_qpa", "total_students" indicate aggregated metrics
-  if (intent.aggregations || hasComputedColumns(intent)) {
+  if (hasComputedColumns(intent)) {
     return "summary";
   }
 
@@ -57,10 +73,10 @@ export function determineViewType(intent, data) {
 /**
  * Checks if the intent contains computed/aliased columns.
  * 
- * @param {Object} intent - The query intent object
- * @returns {boolean} - True if computed columns exist
+ * @param intent - The query intent object
+ * @returns - True if computed columns exist
  */
-function hasComputedColumns(intent) {
+function hasComputedColumns(intent: Intent): boolean {
   // Check if any field has an alias (indicates computed column)
   if (intent.fields) {
     const hasAlias = intent.fields.some(field => field.alias);
@@ -80,11 +96,11 @@ function hasComputedColumns(intent) {
  * Generates a human-readable explanation of why a view was selected.
  * Useful for debugging and user transparency.
  * 
- * @param {Object} intent - The query intent object
- * @param {Array} data - The result data array
- * @returns {string} - Explanation of view selection
+ * @param intent - The query intent object
+ * @param data - The result data array
+ * @returns - Explanation of view selection
  */
-export function explainViewSelection(intent, data) {
+export function explainViewSelection(intent: Intent, data: Record<string, unknown>[]): string {
   if (intent.aggregations && intent.aggregations.length > 0) {
     return `Summary view selected: Query contains ${intent.aggregations.length} aggregation(s)`;
   }
