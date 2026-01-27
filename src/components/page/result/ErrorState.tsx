@@ -28,9 +28,7 @@ export function ErrorState({
           >
             <AlertCircle />
           </EmptyMedia>
-          <EmptyTitle className="text-red-600 dark:text-red-400">
-            {title}
-          </EmptyTitle>
+          <EmptyTitle>{title}</EmptyTitle>
           <EmptyDescription className="text-gray-600 dark:text-gray-300">
             <span className="mb-2 hidden">{message}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">

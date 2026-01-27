@@ -79,7 +79,37 @@ export function ResultsPage({
           console.error("Analysis failed:", data.error);
           setAnalysisResult(null);
           setCurrentStep("Can't complete processing");
-          setErrorStatus(data.error || "Failed to analyze query");
+
+          // Provide specific, user-friendly error messages
+          const errorMsg = data.error || "";
+          if (
+            errorMsg.includes("GEMINI_API_KEY") ||
+            errorMsg.includes("API key")
+          ) {
+            setErrorStatus(
+              "The AI service is not configured. Please check your API key settings.",
+            );
+          } else if (
+            errorMsg.includes("quota") ||
+            errorMsg.includes("limit") ||
+            errorMsg.includes("429")
+          ) {
+            setErrorStatus(
+              "The AI service has reached its usage limit for today. Please try again later or contact support.",
+            );
+          } else if (
+            errorMsg.includes("503") ||
+            errorMsg.includes("unavailable")
+          ) {
+            setErrorStatus(
+              "The AI service is temporarily unavailable. This is normal - please try again in a few moments.",
+            );
+          } else {
+            setErrorStatus(
+              errorMsg ||
+                "Failed to analyze query. Please try rephrasing your question.",
+            );
+          }
         }
       } catch (error: any) {
         if (error.name === "AbortError") {
@@ -88,9 +118,20 @@ export function ResultsPage({
           console.error("Error fetching analysis:", error);
           setAnalysisResult(null);
           setCurrentStep("Can't complete processing");
-          setErrorStatus(
-            "A connection error occurred. Please check if the server is running.",
-          );
+
+          // Detect network vs server errors
+          if (
+            error.message?.includes("fetch") ||
+            error.message?.includes("network")
+          ) {
+            setErrorStatus(
+              "Unable to connect to the server. Please check your internet connection and ensure the server is running.",
+            );
+          } else {
+            setErrorStatus(
+              "An unexpected error occurred. Please try again or contact support if this persists.",
+            );
+          }
         }
       } finally {
         setLoading(false);
@@ -127,7 +168,13 @@ export function ResultsPage({
           <ErrorState
             title="We couldn't complete the analysis"
             message={errorStatus}
-            solution="Ensure your database is connected and your query is relevant to the student records schema."
+            solution={
+              errorStatus.includes("limit") || errorStatus.includes("quota")
+                ? "The service will reset automatically. You can try again later or contact your administrator."
+                : errorStatus.includes("unavailable")
+                  ? "This is usually temporary. Please wait a moment and try your query again."
+                  : "Try rephrasing your question or check that your database connection is active."
+            }
           />
         ) : analysisResult ? (
           <ResultSection
