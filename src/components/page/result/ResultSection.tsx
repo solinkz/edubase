@@ -66,60 +66,60 @@ export function ResultSection({ intent, data, metadata }: ResultSectionProps) {
   });
 
   // Generate a human-readable text-based summary of the results
-  const generateTextSummary = () => {
-    if (data.length === 0)
-      return "Search returned no results. Try adjusting your query.";
-
-    const count = data.length;
-    let summaryText = "";
-
-    // Case 1: Pure Aggregation (e.g., "What is the total count of students?")
-    if (
-      intent.aggregations &&
-      intent.aggregations.length > 0 &&
-      (!intent.groupBy || intent.groupBy.length === 0)
-    ) {
-      const firstRow = data[0];
-      const metrics = Object.entries(firstRow).map(([key, val]) => {
-        const label = key.replace(/_/g, " ");
-        const value =
-          typeof val === "number"
-            ? val.toLocaleString(undefined, { maximumFractionDigits: 2 })
-            : String(val);
-        return `the ${label} is ${value}`;
-      });
-      summaryText = `Based on your request, I found that ${metrics.join(" and ")}.`;
-    }
-    // Case 2: Grouped Data (e.g., "Average QPA by country")
-    else if (intent.groupBy && intent.groupBy.length > 0) {
-      summaryText = `I've analyzed the data for ${count} unique categories grouped by ${intent.groupBy.join(", ")}. `;
-      if (data.length > 0) {
-        summaryText += `The highest result is for ${Object.values(data[0])[0]}, and the average distribution is visible in the table.`;
-      }
-    }
-    // Case 3: List/Filter Data (e.g., "Show students from Canada")
-    else {
-      summaryText = `I found ${count} student records that match your criteria. `;
-      if (intent.filters && intent.filters.length > 0) {
-        const filterDesc = intent.filters
-          .map((f: Filter) => `${f.column} is ${f.value}`)
-          .join(", ");
-        summaryText += `Specifically, where ${filterDesc}. `;
-      }
-      summaryText += "You can see the detailed list in the table view.";
-    }
-
-    return (
-      <div className="space-y-4 py-2">
-        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-          Result Summary
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-          {summaryText}
-        </p>
-      </div>
-    );
-  };
+  //   const generateTextSummary = () => {
+  //     if (data.length === 0)
+  //       return "Search returned no results. Try adjusting your query.";
+  //
+  //     const count = data.length;
+  //     let summaryText = "";
+  //
+  //     // Case 1: Pure Aggregation (e.g., "What is the total count of students?")
+  //     if (
+  //       intent.aggregations &&
+  //       intent.aggregations.length > 0 &&
+  //       (!intent.groupBy || intent.groupBy.length === 0)
+  //     ) {
+  //       const firstRow = data[0];
+  //       const metrics = Object.entries(firstRow).map(([key, val]) => {
+  //         const label = key.replace(/_/g, " ");
+  //         const value =
+  //           typeof val === "number"
+  //             ? val.toLocaleString(undefined, { maximumFractionDigits: 2 })
+  //             : String(val);
+  //         return `the ${label} is ${value}`;
+  //       });
+  //       summaryText = `Based on your request, I found that ${metrics.join(" and ")}.`;
+  //     }
+  //     // Case 2: Grouped Data (e.g., "Average QPA by country")
+  //     else if (intent.groupBy && intent.groupBy.length > 0) {
+  //       summaryText = `I've analyzed the data for ${count} unique categories grouped by ${intent.groupBy.join(", ")}. `;
+  //       if (data.length > 0) {
+  //         summaryText += `The highest result is for ${Object.values(data[0])[0]}, and the average distribution is visible in the table.`;
+  //       }
+  //     }
+  //     // Case 3: List/Filter Data (e.g., "Show students from Canada")
+  //     else {
+  //       summaryText = `I found ${count} student records that match your criteria. `;
+  //       if (intent.filters && intent.filters.length > 0) {
+  //         const filterDesc = intent.filters
+  //           .map((f: Filter) => `${f.column} is ${f.value}`)
+  //           .join(", ");
+  //         summaryText += `Specifically, where ${filterDesc}. `;
+  //       }
+  //       summaryText += "You can see the detailed list in the table view.";
+  //     }
+  //
+  //     return (
+  //       <div className="space-y-4 py-2">
+  //         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+  //           Result Summary
+  //         </h3>
+  //         <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+  //           {summaryText}
+  //         </p>
+  //       </div>
+  //     );
+  //   };
 
   return (
     <div className="w-full max-w-3xl pt-8 flex border-t border-gray-200 dark:border-gray-700 flex-col gap-2 mt-8">
