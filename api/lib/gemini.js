@@ -38,10 +38,12 @@ ${JSON.stringify(intentSchema, null, 2)}
 3. If the user asks for something not possible with the schema, return a valid intent object but potentially with an empty/minimal field set or reflect the limitation in the logic.
 4. Always prioritize safety and precision.
 5. All queries are READ-ONLY (SELECT). NEVER attempt to generate write operations.
-6. For "count", use the aggregation function "COUNT" with column "*".
-7. For averages or sums, use the "aggregations" field.
+6. For "count", use the aggregation function "COUNT" with column "*" and provide an alias.
+7. For averages or sums, use the "aggregations" field with appropriate aliases.
+8. Only include a "limit" if the user explicitly asks for a specific number (e.g., "top 10", "first 5"). Otherwise, omit the "limit" field to return all matching results.
+9. If the user asks for aggregations only (e.g., "How many students?"), you can omit the "fields" array entirely.
 
-### EXAMPLE
+### EXAMPLE 1 - Filtering with fields
 User: "Show me students from Canada with QPA above 3.5"
 Intent:
 {
@@ -50,8 +52,17 @@ Intent:
   "filters": [
     {"column": "country", "operator": "=", "value": "Canada"},
     {"column": "qpa", "operator": ">", "value": 3.5}
-  ],
-  "limit": 100
+  ]
+}
+
+### EXAMPLE 2 - Aggregation only
+User: "How many students are there?"
+Intent:
+{
+  "table": "students",
+  "aggregations": [
+    {"function": "COUNT", "column": "*", "alias": "total_students"}
+  ]
 }
 `;
 

@@ -5,11 +5,18 @@ import { useState } from "react";
 
 export function App() {
   const [NLInput, setNLInput] = useState("");
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<QueryPage NLInput={NLInput} setNLInput={setNLInput} />} />
-        <Route path="/results" element={<ResultsPage NLInput={NLInput} />} />
+        <Route
+          path="/"
+          element={<QueryPage NLInput={NLInput} setNLInput={setNLInput} />}
+        />
+        <Route
+          path="/results"
+          element={<ResultsPage setNLInput={setNLInput} NLInput={NLInput} />}
+        />
       </Routes>
     </BrowserRouter>
   );

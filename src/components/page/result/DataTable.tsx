@@ -48,8 +48,13 @@ export function DataTable({ headers, data }: DataTableProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={headers.length} className="h-24 text-center">
-                No results found.
+              <TableCell
+                colSpan={headers.length}
+                className="h-48 flex flex-col items-center justify-center text-center"
+              >
+                <span className="text-gray-600 dark:text-gray-400">
+                  No results found.
+                </span>
               </TableCell>
             </TableRow>
           )}

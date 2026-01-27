@@ -22,9 +22,14 @@ export function validateIntent(intent) {
   const tableSchema = schema.tables[intent.table];
   const validColumns = Object.keys(tableSchema.columns);
 
-  // Validate fields
+  // Validate fields - allow empty if aggregations are present
+  const hasAggregations = intent.aggregations && intent.aggregations.length > 0;
+  
   if (!intent.fields || intent.fields.length === 0) {
-    errors.push("Fields array is required and cannot be empty");
+    if (!hasAggregations) {
+      errors.push("Either 'fields' or 'aggregations' must be provided");
+    }
+    // If only aggregations, ensure fields is at least an empty array for SQL generation
   } else {
     intent.fields.forEach((field, idx) => {
       if (field.column !== "*" && !validColumns.includes(field.column)) {
@@ -105,8 +110,8 @@ export function intentToSQL(intent) {
 
   const selectParts = [];
 
-  // Add regular fields
-  if (intent.fields) {
+  // Add regular fields (if present)
+  if (intent.fields && intent.fields.length > 0) {
     intent.fields.forEach((field) => {
       if (field.column === "*") {
         selectParts.push("*");
@@ -134,6 +139,11 @@ export function intentToSQL(intent) {
       
       selectParts.push(aggStr);
     });
+  }
+
+  // Ensure we have at least something to select
+  if (selectParts.length === 0) {
+    selectParts.push("*");
   }
 
   sql += selectParts.join(", ");
@@ -190,14 +200,23 @@ export function intentToSQL(intent) {
     sql += " ORDER BY " + orderParts.join(", ");
   }
 
-  // LIMIT clause
+
+  // LIMIT clause - SECURITY: Validate and sanitize to prevent SQL injection
   if (intent.limit) {
-    sql += ` LIMIT ${intent.limit}`;
+    const limitValue = parseInt(intent.limit, 10);
+    if (isNaN(limitValue) || limitValue < 1 || limitValue > 1000) {
+      throw new Error("Invalid LIMIT value. Must be an integer between 1 and 1000.");
+    }
+    sql += ` LIMIT ${limitValue}`;
   }
 
-  // OFFSET clause
+  // OFFSET clause - SECURITY: Validate and sanitize to prevent SQL injection
   if (intent.offset) {
-    sql += ` OFFSET ${intent.offset}`;
+    const offsetValue = parseInt(intent.offset, 10);
+    if (isNaN(offsetValue) || offsetValue < 0) {
+      throw new Error("Invalid OFFSET value. Must be a non-negative integer.");
+    }
+    sql += ` OFFSET ${offsetValue}`;
   }
 
   return { sql, params };

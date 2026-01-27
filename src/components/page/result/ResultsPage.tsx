@@ -1,11 +1,18 @@
 import { NavBar } from "@/components/shared/NavBar";
 import { EmptyState } from "./EmptyState";
+import { ErrorState } from "./ErrorState";
 import { QuerySection } from "./QuerySection";
 import { ResultSection } from "./ResultSection";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
-export function ResultsPage({ NLInput }: { NLInput: string }) {
+export function ResultsPage({
+  NLInput,
+  setNLInput,
+}: {
+  NLInput: string;
+  setNLInput: (value: string) => void;
+}) {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || NLInput;
   const [loading, setLoading] = useState(false);
@@ -17,6 +24,7 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
   } | null>(null);
 
   const [currentStep, setCurrentStep] = useState<string>("");
+  const [errorStatus, setErrorStatus] = useState<string | null>(null);
   const [timeTaken, setTimeTaken] = useState<number | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -33,6 +41,7 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
 
     async function analyzeQuery() {
       setLoading(true);
+      setErrorStatus(null);
       setTimeTaken(null);
       const startTime = performance.now();
       abortControllerRef.current = new AbortController();
@@ -69,7 +78,8 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
         } else {
           console.error("Analysis failed:", data.error);
           setAnalysisResult(null);
-          setCurrentStep("Error processing request");
+          setCurrentStep("Can't complete processing");
+          setErrorStatus(data.error || "Failed to analyze query");
         }
       } catch (error: any) {
         if (error.name === "AbortError") {
@@ -77,7 +87,10 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
         } else {
           console.error("Error fetching analysis:", error);
           setAnalysisResult(null);
-          setCurrentStep("Connection error");
+          setCurrentStep("Can't complete processing");
+          setErrorStatus(
+            "A connection error occurred. Please check if the server is running.",
+          );
         }
       } finally {
         setLoading(false);
@@ -95,7 +108,7 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 relative">
-      <NavBar />
+      <NavBar setNLInput={setNLInput} />
       <div className="flex-1 flex flex-col items-center">
         <QuerySection
           query={query}
@@ -110,6 +123,12 @@ export function ResultsPage({ NLInput }: { NLInput: string }) {
           <div className="w-full flex-1 flex items-center justify-center">
             <EmptyState />
           </div>
+        ) : errorStatus ? (
+          <ErrorState
+            title="We couldn't complete the analysis"
+            message={errorStatus}
+            solution="Ensure your database is connected and your query is relevant to the student records schema."
+          />
         ) : analysisResult ? (
           <ResultSection
             key={query} // Reset internal state (activeTab, currentPage) when query changes

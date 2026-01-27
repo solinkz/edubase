@@ -8,6 +8,7 @@ import {
   Clock,
   ChevronDown,
   Database,
+  AlertCircle,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -45,6 +46,10 @@ export function ProcessShowcase({
                 className="fill-white dark:fill-black group-hover:fill-white"
               />
             </Button>
+          ) : currentStep === "Can't complete processing" ? (
+            <div className="flex items-center justify-center h-6 w-6 rounded-full bg-red-50 dark:bg-red-900/30 text-red-500 dark:text-red-400">
+              <AlertCircle size={16} />
+            </div>
           ) : timeTaken ? (
             <div className="flex items-center justify-center h-6 w-6 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400">
               <CheckCircle2 size={16} />
@@ -57,7 +62,9 @@ export function ProcessShowcase({
 
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+              <span
+                className={`text-sm font-medium text-gray-700 dark:text-gray-200`}
+              >
                 {currentStep || "Ready to analyze"}
               </span>
               {isProcessing && (

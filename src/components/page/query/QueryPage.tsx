@@ -7,7 +7,7 @@ export function QueryPage({ NLInput, setNLInput }: { NLInput: string; setNLInput
   const [showSuggestion, setShowSuggestion] = useState(false);
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-      <NavBar />
+       <NavBar setNLInput={setNLInput} />
       {/* Body */}
       <div className="flex-1 flex flex-col items-center justify-center -mt-20">
         <div className={`w-full max-w-3xl px-4 flex flex-col gap-6 ${showSuggestion ? "mt-[182px]" : ""}`}>

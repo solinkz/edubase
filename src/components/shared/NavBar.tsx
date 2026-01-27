@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import Logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { CirclePlus, History } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export function NavBar() {
+  const navigator = useNavigate();
   return (
     <div className="flex justify-between py-4 px-12">
       <div className="flex items-center">
@@ -20,7 +22,7 @@ export function NavBar() {
           <History />
           History
         </Button>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer" onClick={() => navigator("/")}>
           <CirclePlus />
           New query
         </Button>
