@@ -1,3 +1,6 @@
+/**
+ * SummaryEmptyState - Placeholder for the text-based summary feature (coming soon).
+ */
 import {
   Empty,
   EmptyDescription,

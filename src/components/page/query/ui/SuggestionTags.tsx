@@ -1,3 +1,6 @@
+/**
+ * SuggestionTags - Quick-access chips for broad category searches.
+ */
 import { Button } from "@/components/ui/button";
 
 const Suggestions = [

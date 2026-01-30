@@ -1,3 +1,7 @@
+/**
+ * QuerySuggestion - Displays a list of example queries
+ * that the user can click to auto-populate the input.
+ */
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

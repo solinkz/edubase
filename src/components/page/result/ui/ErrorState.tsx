@@ -1,3 +1,6 @@
+/**
+ * ErrorState - Friendly UI for displaying analysis or network errors.
+ */
 import {
   Empty,
   EmptyDescription,

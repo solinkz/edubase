@@ -1,3 +1,7 @@
+/**
+ * ResultSection - Displays the data returned from a query,
+ * toggleable between Table and Summary views.
+ */
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +11,10 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { DataTable } from "./DataTable";
+import { DataTable } from "../components/DataTable";
 import { explainViewSelection } from "@/lib/viewSelector";
 import { useEffect, useState } from "react";
-import { SummaryEmptyState } from "./SummaryEmptyState";
+import { SummaryEmptyState } from "../ui/SummaryEmptyState";
 
 interface Filter {
   column: string;

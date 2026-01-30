@@ -1,3 +1,7 @@
+/**
+ * QueryInput - A styled input field with Enter-to-send support
+ * and integrated natural language query suggestions.
+ */
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizonal } from "lucide-react";

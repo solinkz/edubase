@@ -1,4 +1,8 @@
-import { ProcessShowcase } from "./ProcessShowcase";
+/**
+ * QuerySection - Displays the original natural language query
+ * and the visual progress of the AI analysis.
+ */
+import { ProcessShowcase } from "../components/ProcessShowcase";
 
 interface QuerySectionProps {
   query: string;

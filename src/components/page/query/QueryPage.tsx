@@ -1,5 +1,9 @@
+/**
+ * QueryPage - Main landing page for natural language database queries.
+ * Reorganized sub-components are located in the ./ui/ directory.
+ */
 import { NavBar } from "@/components/shared/NavBar";
-import { QueryInput } from "./QueryInput";
+import { QueryInput } from "./ui/QueryInput";
 import { BookMarked } from "lucide-react";
 import { useState } from "react";
 
@@ -33,8 +37,8 @@ export function QueryPage({
             <div className="flex justify-center items-center gap-2 text-gray-400 dark:text-gray-500 -mt-2">
               <BookMarked size={16} strokeWidth={2.5} />
               <p className="text-sm font-medium">
-                Use Natural language to check information about Students,
-                Courses, Teachers, etc.
+                Use natural language to check information about students, their
+                country, age or grade.
               </p>
             </div>
           </div>

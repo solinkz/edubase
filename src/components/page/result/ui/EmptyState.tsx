@@ -6,6 +6,9 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Snowflake } from "lucide-react";
+/**
+ * EmptyState - Initial/loading skeleton for the results area.
+ */
 export function EmptyState() {
   return (
     <Empty className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

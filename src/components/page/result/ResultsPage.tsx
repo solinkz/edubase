@@ -1,8 +1,13 @@
+/**
+ * ResultsPage - Orchestrates the analysis flow and displays query results.
+ * Sub-components are grouped by function: sections/, components/, and ui/.
+ */
 import { NavBar } from "@/components/shared/NavBar";
-import { EmptyState } from "./EmptyState";
-import { ErrorState } from "./ErrorState";
-import { QuerySection } from "./QuerySection";
-import { ResultSection } from "./ResultSection";
+import { EmptyState } from "./ui/EmptyState";
+import { ErrorState } from "./ui/ErrorState";
+import { QuerySection } from "./sections/QuerySection";
+import { ResultSection } from "./sections/ResultSection";
+
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 

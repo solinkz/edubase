@@ -1,3 +1,6 @@
+/**
+ * DataTable - A reusable paginated table for query results.
+ */
 import {
   Table,
   TableBody,

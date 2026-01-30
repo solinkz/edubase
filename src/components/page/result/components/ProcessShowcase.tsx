@@ -1,3 +1,6 @@
+/**
+ * ProcessShowcase - Visual breakdown of the AI analysis steps.
+ */
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
