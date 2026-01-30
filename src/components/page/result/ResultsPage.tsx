@@ -149,7 +149,7 @@ export function ResultsPage({
   }, [query]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 relative">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 relative pb-10">
       <NavBar setNLInput={setNLInput} />
       <div className="flex-1 flex flex-col items-center">
         <QuerySection
