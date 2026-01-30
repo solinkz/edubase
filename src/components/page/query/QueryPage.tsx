@@ -30,7 +30,7 @@ export function QueryPage({
               NLInput={NLInput}
               setNLInput={setNLInput}
             />
-            <div className="flex justify-center items-center gap-2 text-gray-400 dark:text-gray-500">
+            <div className="flex justify-center items-center gap-2 text-gray-400 dark:text-gray-500 -mt-2">
               <BookMarked size={16} strokeWidth={2.5} />
               <p className="text-sm font-medium">
                 Use Natural language to check information about Students,

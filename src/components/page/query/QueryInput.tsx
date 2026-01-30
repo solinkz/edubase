@@ -43,9 +43,15 @@ export function QueryInput({
     navigate(`/results?q=${encodeURIComponent(NLInput)}`);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
   return (
-    <div className="flex flex-col border border-gray-200 dark:border-gray-700 min-h-14 rounded-3xl shadow-xs bg-white dark:bg-gray-800 overflow-hidden">
-      <div className="flex items-center flex-1 px-1 py-2">
+    <div className="flex flex-col border border-gray-200 dark:border-gray-700 min-h-10 rounded-3xl shadow-xs bg-white dark:bg-gray-800 overflow-hidden">
+      <div className="flex items-center flex-1 px-1 py-1.5">
         <Input
           placeholder="Ask anything..."
           className="text-lg bg-transparent dark:bg-transparent placeholder:text-gray-400 focus-visible:ring-0 shadow-none border-0"
@@ -54,6 +60,7 @@ export function QueryInput({
           onBlur={handleBlur}
           onChange={handleChange}
           onClick={handleFocus}
+          onKeyDown={handleKeyDown}
         />
 
         <Button
