@@ -71,10 +71,6 @@ export function ResultsPage({
         const data = await response.json();
 
         if (data.success) {
-          console.log("AI Intent Generated:", data.intent);
-          console.log("SQL Generated:", data.sql); // Kept this line from original
-          console.log("Query Results:", data.data); // Kept this line from original
-
           // Final Step: Completion
           setCurrentStep("Processing complete");
           setAnalysisResult(data);

@@ -12,8 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { DataTable } from "../components/DataTable";
-import { explainViewSelection } from "@/lib/viewSelector";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SummaryEmptyState } from "../ui/SummaryEmptyState";
 
 interface Filter {
@@ -38,7 +37,7 @@ interface ResultSectionProps {
   metadata: { rowCount: number };
 }
 
-export function ResultSection({ intent, data, metadata }: ResultSectionProps) {
+export function ResultSection({ data, metadata }: ResultSectionProps) {
   // Deterministically select the recommended view based on query characteristics
   // Since we use a 'key' on this component in ResultsPage, this initial state
   // will be re-initialized whenever the query results change.
@@ -49,11 +48,6 @@ export function ResultSection({ intent, data, metadata }: ResultSectionProps) {
   // Pagination state
   const ROWS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Log recommendation for transparency
-  useEffect(() => {
-    console.log("View Recommendation:", explainViewSelection(intent, data));
-  }, [intent, data]);
 
   // Calculate pagination values
   const totalPages = Math.ceil(data.length / ROWS_PER_PAGE);
